@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito Sans', sans-serif;
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.inputForm {
+  @apply p-2 border-[3px] border-blue-500 rounded-md w-full mt-4 ;
+}
+.badge {
+  @apply px-5 mt-3 rounded-full bg-white border-2 border-black w-fit;
+}
+/* Thin scrollbar for Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1; /* You can customize the handle and track colors */
+}
+
+*::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1; /* You can customize the background color */
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #888; /* You can customize the handle color */
+  border-radius: 4px; /* Adjust the border-radius for a rounded look */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Change the color on hover */
+}
+
+.toastMessageServer{
+  border-radius: 10px;
+  margin: 10px;
+}
+
+
+
