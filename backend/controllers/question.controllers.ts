@@ -41,7 +41,7 @@ export async function tast(req: Request, res: Response) {
       const { input, outPut } = await runSolutionTypeMatrix(solution);
       return res.status(200).json({input, outPut})
     }
-    res.status(400).json("you need to fix the fun")
+    res.status(400).json("you need to fix the fun");
     console.log("another line")
   } catch (error) {
     console.error(error,"error");
