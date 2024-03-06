@@ -14,7 +14,7 @@ interface SandboxOutput {
   consoleOutput: any;
 }
 
-export async function tast(req: Request, res: Response) {
+export async function AddQuestion(req: Request, res: Response) {
   const { question, solution, teacher, classId, level } = req.body;
 
   if (!question || !solution || !teacher || !classId || !level)
@@ -28,23 +28,49 @@ export async function tast(req: Request, res: Response) {
   if (questionIsExists)
     return res.status(400).json({ message: "the question is alredy exists" });
 
+  let input: any = null;
+  let outPut: any = null;
+  let status: string | boolean = "";
+
   try {
     if (level === "single number") {
-      const { input, outPut } = await runSolutionTypeSingle(solution);
-      return res.status(200).json({input, outPut})
-    } 
-    else if (level == "array of numbers") {
-      const { input, outPut } = await runSolutionTypeArray(solution);
-      return res.status(200).json({input, outPut})
-    } 
-    else if (level == "matrix of numbers") {
-      const { input, outPut } = await runSolutionTypeMatrix(solution);
-      return res.status(200).json({input, outPut})
+      const result = await runSolutionTypeSingle(solution);
+      input = result.input;
+      outPut = result.outPut;
+    } else if (level == "array of numbers") {
+      const result = await runSolutionTypeArray(solution);
+      input = result.input;
+      outPut = result.outPut;
+    } else if (level == "matrix of numbers") {
+      const result = await runSolutionTypeMatrix(solution);
+      input = result.input;
+      outPut = result.outPut;
     }
-    res.status(400).json("you need to fix the fun");
-    console.log("another line")
+
+    for (const error of outPut) {
+      if (
+        error === "\"SyntaxError: Unexpected token '{'\"" ||
+        error === "'SyntaxError: Function statements require a function name'" ||
+        error === "\"SyntaxError: Unexpected token 'return'\""
+      ) {
+        return res.status(400).json({ message: error });
+      }
+    }
+
+
+    const newQuestion = await QuestionModel.create({
+      question,
+      solution,
+      input,
+      outPut,
+      teacher,
+      classId,
+      level,
+    });
+
+    return res.status(200).json({ message: "the function create succefuly!" });
   } catch (error) {
-    console.error(error,"error");
+    console.error(error, "error");
     return res.status(500).json({ message: "Something went wrong" });
   }
 }
@@ -55,10 +81,9 @@ async function runSolutionTypeSingle(solution: string) {
   const input = [
     10, -6, -3, -1, 0, 1, 3, 6, 7, 7, 10, 99, -22, 78, 12, 0, 66, 105, 12, -33,
   ];
-  const inputAsString = input.map(number => number.toString());
+  const inputAsString = input.map((number) => number.toString());
 
   for (let i = 0; i < input.length; i++) {
-
     const code = solution + `runCode(${inputAsString[i]})`;
     const result: SandboxOutput = await new Promise((resolve, reject) => {
       sandbox.run(code, function (output: any) {
@@ -84,11 +109,14 @@ async function runSolutionTypeArray(solution: string) {
     [-10, 99, 6, 3],
   ];
 
-  const inputAsString = ["[1, 5, -6, 77]","[0, 0, 33, 105]",
-  "[2, -1, 5, 78]","[-10, 99, 6, 3]"]
+  const inputAsString = [
+    "[1, 5, -6, 77]",
+    "[0, 0, 33, 105]",
+    "[2, -1, 5, 78]",
+    "[-10, 99, 6, 3]",
+  ];
 
   for (let i = 0; i < input.length; i++) {
-
     const code = solution + `runCode(${inputAsString[i]})`;
     const result: SandboxOutput = await new Promise((resolve, reject) => {
       sandbox.run(code, function (output: any) {
@@ -136,9 +164,7 @@ async function runSolutionTypeMatrix(solution: string) {
     "[[-10, 99, 6, 3], [6, 36, -27, 55],[1, 1, 1, 1],]",
   ];
 
-
   for (let i = 0; i < input.length; i++) {
-
     const code = solution + `runCode(${inputAsString[i]})`;
     const result: SandboxOutput = await new Promise((resolve, reject) => {
       sandbox.run(code, function (output: any) {
@@ -154,68 +180,7 @@ async function runSolutionTypeMatrix(solution: string) {
   return { input, outPut };
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// -------------------------------------------------------------------------
-
-export async function AddQuestion(req: Request, res: Response) {
-  try {
-    const { question, solution, teacher, classId, level } = req.body;
-
-    if (!question || !solution || !teacher || !classId || !level)
-      return res.status(400).json({ message: "Not all data is complete!" });
-
-    // check if the question is alrdy exists
-    const questionIsExists = await QuestionModel.findOne({
-      question,
-    });
-
-    if (questionIsExists)
-      return res.status(400).json({ message: "the question is alredy exists" });
-
-    const { input, outPut } = await CheckTypeOfLevel(level, solution);
-
-    const newQuestion = await QuestionModel.create({
-      question,
-      solution,
-      input,
-      outPut,
-      teacher,
-      classId,
-      level,
-    });
-
-    return res.status(200).json({ message: "the function create succefuly!" });
-  } catch (err) {
-    return res.status(500).json({ message: err });
-  }
-}
+// --------------------------------------------------------------
 
 export async function CheckTypeOfLevel(level: string, solution: string) {
   if (level === "single number") {

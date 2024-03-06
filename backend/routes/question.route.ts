@@ -6,7 +6,6 @@ import {
   checkCode,
   getQuestionById,
   getQuestionByTeacherId,
-  tast,
   updateSolution,
 } from "../controllers/question.controllers";
 // @ts-ignore
@@ -21,7 +20,7 @@ questionRouter.post("/changeGrade", changeGrade);
 
 
 
-questionRouter.post('/tast', tast)
+questionRouter.post('/tast', AddQuestion)
 export default questionRouter;
 
 
