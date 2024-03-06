@@ -43,7 +43,7 @@ export async function tast(req: Request, res: Response) {
     }
     res.status(400).json("you need to fix the fun")
   } catch (error) {
-    console.error(error);
+    console.error(error,"error");
     return res.status(500).json({ message: "Something went wrong" });
   }
 }
