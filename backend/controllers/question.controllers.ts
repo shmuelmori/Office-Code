@@ -184,13 +184,13 @@ async function runSolutionTypeMatrix(solution: string) {
 
 export async function CheckTypeOfLevel(level: string, solution: string) {
   if (level === "single number") {
-    const { input, outPut } = await RunSolutionNumber(solution);
+    const { input, outPut } = await runSolutionTypeSingle(solution);
     return { input, outPut };
   } else if (level == "array of numbers") {
-    const { input, outPut } = await RunSolutionArrayNumber(solution);
+    const { input, outPut } = await runSolutionTypeArray(solution);
     return { input, outPut };
   } else if (level == "matrix of numbers") {
-    const { input, outPut } = await RunSolutionMatrixNumber(solution);
+    const { input, outPut } = await runSolutionTypeMatrix(solution);
     return { input, outPut };
   }
   return { input: null, outPut: null };
