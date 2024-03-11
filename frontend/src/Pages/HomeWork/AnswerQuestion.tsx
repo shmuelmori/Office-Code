@@ -9,7 +9,7 @@ export default function AnswerQuestion() {
   const { getQuestionById, updateSolution } = useQuestions();
   const { user } = useContext(AuthContext);
   const [question, setQuestion] = useState<getQuestion | null>(null);
-  const [answer, setAnswer] = useState<string>("function ronCode(num){\n \n}");
+  const [answer, setAnswer] = useState<string>("function runCode(num){\n \n}");
   useEffect(() => {
     getQuestionById(id!, setQuestion);
   }, []);

@@ -131,7 +131,7 @@ export default function CreateQuestion() {
             </div>
             <div className="absolute box-border "></div>
             <textarea
-              value={question?.solution || ""}
+              value={question?.solution || "function runCode(num){\n}"}
               onChange={(e) =>
                 setQuestion((prev) => ({
                   ...(prev as QuestionFromUser),
