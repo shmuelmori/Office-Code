@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuestions } from "../../hooks/useQuestion";
 import { AuthContext } from "../../context/AuthContext";

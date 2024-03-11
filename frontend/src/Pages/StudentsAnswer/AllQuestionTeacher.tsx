@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuestions } from "../../hooks/useQuestion";
 import { TeacherClass, getQuestion } from "../../Types/types";

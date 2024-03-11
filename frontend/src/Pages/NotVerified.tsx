@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useUsers } from "../hooks/useUsers";
 
 export default function NotVerified() {
