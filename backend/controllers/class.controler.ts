@@ -80,6 +80,8 @@ export async function DeleteClass(req: Request, res: Response) {
     if (!deleteClass)
       return res.status(400).json({ message: "the class is not found" });
 
+    // change the value that put, after delete
+
     deleteClass.students.map(async (student) => {
       const user = await findOneUser(student);
 
@@ -87,8 +89,10 @@ export async function DeleteClass(req: Request, res: Response) {
         user.techers.map(async (teacer, index) => {
           if (teacer == deleteClass.teacherId) {
             user.classId = "";
-            user.techers[index] = "";
-            user.save();
+            user.techers = user.techers.filter(
+              (i, ind) => ind != index || i != ""
+            );
+            await user.save();
           }
         });
       }
@@ -97,11 +101,13 @@ export async function DeleteClass(req: Request, res: Response) {
       const temp = await ClassModal.deleteOne({ _id });
       if (teacher) {
         teacher.classId = "";
-        teacher.save();
+        await teacher.save();
       }
     });
 
-    return res.status(200).json({ message: `the ${deleteClass.className} deleted succefuly `});
+    return res
+      .status(200)
+      .json({ message: `the ${deleteClass.className} deleted succefuly ` });
   } catch (error) {}
 }
 
@@ -109,30 +115,33 @@ export async function getAllClass(req: Request, res: Response) {
   try {
     const allClass = await ClassModal.find({});
 
-    if(!allClass) return res.status(400).json({message: 'class not found'})
-    
+    if (!allClass) return res.status(400).json({ message: "class not found" });
+
     return res.status(200).json(allClass);
   } catch (error) {
     return res.status(400).json({ message: "we have error" });
   }
 }
 
-export async function getNameOfTeacher(req: Request, res: Response){
-  const { id } =req.params;
+export async function getNameOfTeacher(req: Request, res: Response) {
+  const { id } = req.params;
 
   try {
-    if(!isValidObjectId(id)) return res.status(400).json({message: 'the id is not valid'})
+    if (!isValidObjectId(id))
+      return res.status(400).json({ message: "the id is not valid" });
 
     const classFound = await ClassModal.findById(id);
 
-    if(!classFound)  return res.status(400).json({message: 'the class not found'})
+    if (!classFound)
+      return res.status(400).json({ message: "the class not found" });
 
     const teacher = await UserModel.findById(classFound.teacherId);
 
-    if(!teacher) return res.status(400).json({message: `the teacher not found`});
+    if (!teacher)
+      return res.status(400).json({ message: `the teacher not found` });
 
     return res.status(200).json(teacher);
   } catch (error) {
-    return res.status(400).json({message: 'error server'});
+    return res.status(400).json({ message: "error server" });
   }
 }
