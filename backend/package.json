@@ -1,5 +1,4 @@
 {
- // change scripts start from: "start": "nodemon server.ts"
   "name": "backend",
   "version": "1.0.0",
   "description": "",
