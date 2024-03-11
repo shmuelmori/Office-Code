@@ -62,13 +62,14 @@ export default function LoginPage() {
             <FaEyeSlash size={25} />
           </p>
         </div>
-        <div className="flex justify-center mt-5">
+        {/* we need get correct id ReCAPTCHA */}
+        {/* <div className="flex justify-center mt-5">
         <ReCAPTCHA onChange={(val)=> setCalVal(val)} sitekey="6LcvHFIpAAAAACz0OJnt-ytiNqLmV8AJNFbbP146"/>
             
-        </div>
+        </div> */}
         <div className="flex items-center justify-center">
           <button
-            disabled={!capVal}
+            // disabled={!capVal} we need get correct id ReCAPTCHA
             type="submit"
             className={`mt-5 border-2 transition-all border-black bg-black text-white px-8 py-2 rounded-full  ${!capVal? null : 'hover:bg-white hover:text-black'}`}
           >

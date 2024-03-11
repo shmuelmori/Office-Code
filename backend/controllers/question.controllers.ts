@@ -50,13 +50,13 @@ export async function AddQuestion(req: Request, res: Response) {
     for (const error of outPut) {
       if (
         error === "\"SyntaxError: Unexpected token '{'\"" ||
-        error === "'SyntaxError: Function statements require a function name'" ||
+        error ===
+          "'SyntaxError: Function statements require a function name'" ||
         error === "\"SyntaxError: Unexpected token 'return'\""
       ) {
         return res.status(400).json({ message: error });
       }
     }
-
 
     const newQuestion = await QuestionModel.create({
       question,
@@ -194,97 +194,6 @@ export async function CheckTypeOfLevel(level: string, solution: string) {
     return { input, outPut };
   }
   return { input: null, outPut: null };
-}
-
-export async function RunSolutionNumber(solution: string) {
-  const outPut: number[] = [];
-  const input: number[] = [];
-  const ArrayInput = [
-    10, -6, -3, -1, 0, 1, 3, 6, 7, 7, 10, 99, -22, 78, 12, 0, 66, 105, 12, -33,
-  ];
-
-  try {
-    // Define the complete function with a signature
-    const runCodeFunction = new Function("num", `return (${solution})(num)`);
-
-    for (let i = 0; i < ArrayInput.length; i++) {
-      const currentInput = ArrayInput[i];
-      const currentOutput = runCodeFunction(currentInput);
-
-      input.push(currentInput);
-      outPut.push(currentOutput);
-    }
-  } catch (error) {}
-
-  return { input, outPut };
-}
-
-export async function RunSolutionArrayNumber(solution: string) {
-  const outPut: number[][] = [];
-  const input: number[][] = [];
-
-  const ArrayInput = [
-    [1, 5, -6, 77],
-    [0, 0, 33, 105],
-    [2, -1, 5, 78],
-    [-10, 99, 6, 3],
-  ];
-  try {
-    const runCodeFunction = new Function("num", `return (${solution})(num)`);
-
-    for (let i = 0; i < ArrayInput.length; i++) {
-      const currentInput: number[] = ArrayInput[i];
-      const currentOutput: number[] = runCodeFunction(currentInput);
-
-      input.push(currentInput);
-      outPut.push(currentOutput);
-    }
-  } catch (error) {}
-
-  return { input, outPut };
-}
-
-export async function RunSolutionMatrixNumber(solution: string) {
-  const outPut: number[][][] = [];
-  const input: number[][][] = [];
-
-  const ArrayInput: number[][][] = [
-    [
-      [1, 5, -6, 77],
-      [-1, -6, -5, -100],
-      [22, 3, -2, 0],
-    ],
-    [
-      [0, 0, 33, 105],
-      [4, 44, 2, 88],
-      [22, -4, -9, 19],
-    ],
-    [
-      [2, -1, 5, 78],
-      [27, 86, -20, -3],
-      [100, 50, 25, -5],
-    ],
-    [
-      [-10, 99, 6, 3],
-      [6, 36, -27, 55],
-      [1, 1, 1, 1],
-    ],
-  ];
-  try {
-    const runCodeFunction = new Function("num", `return (${solution})(num)`);
-
-    for (let i = 0; i < ArrayInput.length; i++) {
-      for (let j = 0; j < ArrayInput[i].length; j++) {
-        const currentInput: number[][] = ArrayInput[i];
-        const currentOutput: number[][] = runCodeFunction(currentInput);
-
-        input.push(currentInput);
-        outPut.push(currentOutput);
-      }
-    }
-  } catch (error) {}
-
-  return { input, outPut };
 }
 
 export async function getQuestionByTeacherId(req: Request, res: Response) {
@@ -493,3 +402,94 @@ export async function changeGrade(req: Request, res: Response) {
 
   return res.status(200).json({ message: "the changes saved succesfuly!" });
 }
+
+// export async function RunSolutionNumber(solution: string) {
+//   const outPut: number[] = [];
+//   const input: number[] = [];
+//   const ArrayInput = [
+//     10, -6, -3, -1, 0, 1, 3, 6, 7, 7, 10, 99, -22, 78, 12, 0, 66, 105, 12, -33,
+//   ];
+
+//   try {
+//     // Define the complete function with a signature
+//     const runCodeFunction = new Function("num", `return (${solution})(num)`);
+
+//     for (let i = 0; i < ArrayInput.length; i++) {
+//       const currentInput = ArrayInput[i];
+//       const currentOutput = runCodeFunction(currentInput);
+
+//       input.push(currentInput);
+//       outPut.push(currentOutput);
+//     }
+//   } catch (error) {}
+
+//   return { input, outPut };
+// }
+
+// export async function RunSolutionArrayNumber(solution: string) {
+//   const outPut: number[][] = [];
+//   const input: number[][] = [];
+
+//   const ArrayInput = [
+//     [1, 5, -6, 77],
+//     [0, 0, 33, 105],
+//     [2, -1, 5, 78],
+//     [-10, 99, 6, 3],
+//   ];
+//   try {
+//     const runCodeFunction = new Function("num", `return (${solution})(num)`);
+
+//     for (let i = 0; i < ArrayInput.length; i++) {
+//       const currentInput: number[] = ArrayInput[i];
+//       const currentOutput: number[] = runCodeFunction(currentInput);
+
+//       input.push(currentInput);
+//       outPut.push(currentOutput);
+//     }
+//   } catch (error) {}
+
+//   return { input, outPut };
+// }
+
+// export async function RunSolutionMatrixNumber(solution: string) {
+//   const outPut: number[][][] = [];
+//   const input: number[][][] = [];
+
+//   const ArrayInput: number[][][] = [
+//     [
+//       [1, 5, -6, 77],
+//       [-1, -6, -5, -100],
+//       [22, 3, -2, 0],
+//     ],
+//     [
+//       [0, 0, 33, 105],
+//       [4, 44, 2, 88],
+//       [22, -4, -9, 19],
+//     ],
+//     [
+//       [2, -1, 5, 78],
+//       [27, 86, -20, -3],
+//       [100, 50, 25, -5],
+//     ],
+//     [
+//       [-10, 99, 6, 3],
+//       [6, 36, -27, 55],
+//       [1, 1, 1, 1],
+//     ],
+//   ];
+//   try {
+//     const runCodeFunction = new Function("num", `return (${solution})(num)`);
+
+//     for (let i = 0; i < ArrayInput.length; i++) {
+//       for (let j = 0; j < ArrayInput[i].length; j++) {
+//         const currentInput: number[][] = ArrayInput[i];
+//         const currentOutput: number[][] = runCodeFunction(currentInput);
+
+//         input.push(currentInput);
+//         outPut.push(currentOutput);
+//       }
+//     }
+//   } catch (error) {}
+
+//   return { input, outPut };
+// }

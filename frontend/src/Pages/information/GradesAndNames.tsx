@@ -52,7 +52,7 @@ export default function GradesAndNames() {
       <div className="text-center p-2 m-4 text-2xl font-serif">
         {myClass?.class.className}
       </div>
-      <div>
+      <div className="w-full lg:w-[70vh]">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 300 }} size="small" aria-label="a dense table">
             <TableHead>
