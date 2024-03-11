@@ -1,10 +1,11 @@
 {
+ // change scripts start from: "start": "nodemon server.ts"
   "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.ts"
+    "start": "node server.ts"
   },
   "keywords": [],
   "author": "",
