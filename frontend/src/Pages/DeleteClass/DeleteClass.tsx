@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useClass } from "../../hooks/useClass";
 import { getClassType } from "../../Types/types";
 import OneClassDelete from "./OneClassDelete";
