@@ -45,6 +45,14 @@ export async function AddQuestion(req: Request, res: Response) {
       const result = await runSolutionTypeMatrix(solution);
       input = result.input;
       outPut = result.outPut;
+    } else if (level == "string") {
+      const result = await runSolutionTypeString(solution);
+      input = result.input;
+      outPut = result.outPut;
+    } else if (level == "char") {
+      const result = await runSolutionTypeChar(solution);
+      input = result.input;
+      outPut = result.outPut;
     }
 
     for (const error of outPut) {
@@ -52,7 +60,8 @@ export async function AddQuestion(req: Request, res: Response) {
         error === "\"SyntaxError: Unexpected token '{'\"" ||
         error ===
           "'SyntaxError: Function statements require a function name'" ||
-        error === "\"SyntaxError: Unexpected token 'return'\""
+        error === "\"SyntaxError: Unexpected token 'return'\"" ||
+        error === "'SyntaxError: Unexpected identifier'"
       ) {
         return res.status(400).json({ message: error });
       }
@@ -166,6 +175,80 @@ async function runSolutionTypeMatrix(solution: string) {
 
   for (let i = 0; i < input.length; i++) {
     const code = solution + `runCode(${inputAsString[i]})`;
+    const result: SandboxOutput = await new Promise((resolve, reject) => {
+      sandbox.run(code, function (output: any) {
+        const result = output.result;
+
+        resolve(result);
+      });
+    });
+
+    outPut.push(result);
+  }
+
+  return { input, outPut };
+}
+
+async function runSolutionTypeChar(solution: string) {
+  const sandbox = new Sandbox();
+  const outPut: any[] = [];
+  const input = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "1",
+    "2",
+    "3",
+  ];
+
+  for (let i = 0; i < input.length; i++) {
+    const code = `${solution} runCode('${input[i]}')`;
+    const result: SandboxOutput = await new Promise((resolve, reject) => {
+      sandbox.run(code, function (output: any) {
+        const result = output.result;
+
+        resolve(result);
+      });
+    });
+
+    outPut.push(result);
+  }
+
+  return { input, outPut };
+}
+
+async function runSolutionTypeString(solution: string) {
+  const sandbox = new Sandbox();
+  const outPut: any[] = [];
+  const input = [
+    "hello",
+    "worldwlypsl",
+    "this",
+    "short",
+    "another",
+    "anotona",
+    "okay",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seves",
+    "eight",
+    "nine",
+    "ten",
+  ];
+
+  for (let i = 0; i < input.length; i++) {
+    const code = `${solution} runCode('${input[i]}')`;
     const result: SandboxOutput = await new Promise((resolve, reject) => {
       sandbox.run(code, function (output: any) {
         const result = output.result;

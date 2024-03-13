@@ -80,7 +80,6 @@ export async function DeleteClass(req: Request, res: Response) {
     if (!deleteClass)
       return res.status(400).json({ message: "the class is not found" });
 
-    // change the value that put, after delete
 
     deleteClass.students.map(async (student) => {
       const user = await findOneUser(student);
