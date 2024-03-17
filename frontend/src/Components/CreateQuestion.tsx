@@ -96,6 +96,38 @@ export default function CreateQuestion() {
                 matrix of numbers
               </label>
             </div>
+            <div className="m-4 ">
+              <input
+                type="radio"
+                name="level"
+                id="option4"
+                className="cursor-pointer ml-3 mr-1"
+                onChange={() => handleLevelChange("char")}
+              />
+              <label
+                className="transition-colors duration-300 ease-in-out p-1 hover:bg-blue-400 hover:text-white hover:border-blue-500 border-2 rounded-full cursor-pointer"
+                htmlFor="option4"
+              >
+                {" "}
+                char
+              </label>
+            </div>
+            <div className="m-4 ">
+              <input
+                type="radio"
+                name="level"
+                id="option5"
+                className="cursor-pointer ml-3 mr-1"
+                onChange={() => handleLevelChange("string")}
+              />
+              <label
+                className="transition-colors duration-300 ease-in-out p-1 hover:bg-blue-400 hover:text-white hover:border-blue-500 border-2 rounded-full cursor-pointer"
+                htmlFor="option5"
+              >
+                {" "}
+                string
+              </label>
+            </div>
           </div>
           <div className=" bg-white w-[250px] h-[300px] border-2 border-blue-400 rounded-md mt-3 sm:mt-0">
             <div>
@@ -131,7 +163,7 @@ export default function CreateQuestion() {
             </div>
             <div className="absolute box-border "></div>
             <textarea
-              value={question?.solution || "function runCode(num){\n}"}
+              value={question?.solution || "function runCode(prop){\n}"}
               onChange={(e) =>
                 setQuestion((prev) => ({
                   ...(prev as QuestionFromUser),
@@ -159,5 +191,3 @@ export default function CreateQuestion() {
     </>
   );
 }
-
-

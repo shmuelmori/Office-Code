@@ -8,7 +8,7 @@ import OneQuestion from "./OneQuestion";
 
 
 export default function HomeWork() {
-  type levelType = "single number" | "array of numbers" | "matrix of numbers";
+  type levelType = "single number" | "array of numbers" | "matrix of numbers" | "char" | "string";
 
   const address =  window.location.pathname;
   const { user } = useContext(AuthContext);
@@ -35,7 +35,6 @@ export default function HomeWork() {
   }
   else if(address === '/GradeHistory'){
     sandTo = 'QuestionHistory'
-    
   }
   return (
     <div>
@@ -92,6 +91,28 @@ export default function HomeWork() {
           }`}
         >
           Matrix number
+        </div>
+        <div
+          onClick={() => {
+            if (level == "char") setLevel(null);
+            else setLevel("char");
+          }}
+          className={`border-2 p-2 rounded-md m-2 cursor-pointer ${
+            level == "char" ? "bg-black text-white" : null
+          }`}
+        >
+          Char
+        </div>
+        <div
+          onClick={() => {
+            if (level == "string") setLevel(null);
+            else setLevel("string");
+          }}
+          className={`border-2 p-2 rounded-md m-2 cursor-pointer ${
+            level == "string" ? "bg-black text-white" : null
+          }`}
+        >
+          String
         </div>
       </div>
 
